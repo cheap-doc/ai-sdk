@@ -1,0 +1,68 @@
+# Publishes the package to npm when a version tag is pushed.
+#
+# The release carries a provenance statement: a signed record that this
+# workflow, in this public repository, built the release from a given commit.
+#
+# npm authentication is trusted publishing: the package's npm settings trust
+# this repository and this workflow file, and npm exchanges the job's OIDC
+# token (`id-token: write`) for a short-lived publish credential. That exchange
+# needs npm 11.5.1 or newer, which is why npm is upgraded before publishing
+# instead of relying on the version the runner's Node happens to bundle.
+#
+# The tag is the bare version from package.json, for example 0.1.0.
+
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+
+    permissions:
+      # Mints the token npm exchanges for the publish credential and signs the
+      # provenance statement with.
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Check the tag matches the package version
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "$GITHUB_REF_NAME" != "$version" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $version"
+            exit 1
+          fi
+
+      - name: Upgrade npm to a version that supports trusted publishing
+        run: |
+          npm install -g npm@^11.5.1
+          npm --version
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run tests
+        run: npm test
+
+      - name: Publish
+        run: npm publish --provenance --access public
+        env:
+          # Trusted publishing can only be configured for a package that
+          # already exists on npm, so the very first release needs a token.
+          # npm tries the OIDC exchange first and falls back to this token;
+          # once trusted publishing is set up the secret can be deleted, and
+          # an absent secret leaves this empty, which npm ignores.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

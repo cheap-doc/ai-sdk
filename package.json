@@ -1,0 +1,68 @@
+{
+  "name": "@doc-cheap/ai-sdk",
+  "version": "0.1.0",
+  "description": "doc.cheap tools for the AI SDK – read passports, ID cards and driving licences into structured fields. Free: 100 documents every month, then $0.01 each",
+  "license": "MIT",
+  "homepage": "https://doc.cheap/docs/guides/use-the-ai-sdk",
+  "keywords": [
+    "ai-sdk",
+    "vercel-ai",
+    "tools",
+    "ocr",
+    "passport",
+    "id-document",
+    "mrz",
+    "kyc",
+    "document-recognition"
+  ],
+  "author": {
+    "name": "Teoh Chin Heng",
+    "email": "admin@doc.cheap"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cheap-doc/ai-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cheap-doc/ai-sdk/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.build.json",
+    "prepack": "npm run build",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "ai": "^6.0.0 || ^7.0.0",
+    "zod": "^3.25.76 || ^4.1.8"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.3",
+    "ai": "7.0.127",
+    "typescript": "5.9.3",
+    "vitest": "5.0.0",
+    "zod": "4.5.4"
+  }
+}
