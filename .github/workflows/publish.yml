@@ -59,10 +59,3 @@ jobs:
 
       - name: Publish
         run: npm publish --provenance --access public
-        env:
-          # Trusted publishing can only be configured for a package that
-          # already exists on npm, so the very first release needs a token.
-          # npm tries the OIDC exchange first and falls back to this token;
-          # once trusted publishing is set up the secret can be deleted, and
-          # an absent secret leaves this empty, which npm ignores.
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
