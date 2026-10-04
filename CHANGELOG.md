@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1
+
+- **docCheapTools()** can be passed straight as `tools` under strict
+  TypeScript. Its return type was an interface, which the AI SDK's `ToolSet`
+  record does not accept, so `tools: docCheapTools()` failed to compile and
+  only `tools: { ...docCheapTools() }` worked. The type is now an object type
+  alias; nothing changes at run time.
+
 ## 0.1.0
 
 First release.
