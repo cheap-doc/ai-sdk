@@ -1,6 +1,6 @@
 {
   "name": "@doc-cheap/ai-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "doc.cheap tools for the AI SDK – read passports, ID cards and driving licences into structured fields. Free: 100 documents every month, then $0.01 each",
   "license": "MIT",
   "homepage": "https://doc.cheap/docs/guides/use-the-ai-sdk",

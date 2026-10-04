@@ -244,15 +244,20 @@ export function getUsage(options: DocCheapOptions = {}): Tool<Record<string, nev
   });
 }
 
-export interface DocCheapTools {
+// A type alias rather than an interface on purpose: the AI SDK's `ToolSet` is
+// a record with a string index signature, and TypeScript lets an object type
+// alias satisfy one but never an interface. As an interface, passing
+// `docCheapTools()` straight as `tools` fails under `strict`; tool-set.test.ts
+// holds that call so the declaration cannot drift back.
+export type DocCheapTools = {
   readonly scanDocument: Tool<ScanDocumentInput, ApiAnswer>;
   readonly getScan: Tool<ScanIdInput, ApiAnswer>;
   readonly deleteScan: Tool<ScanIdInput, ApiAnswer>;
   readonly listScans: Tool<ListScansInput, ApiAnswer>;
   readonly getUsage: Tool<Record<string, never>, ApiAnswer>;
-}
+};
 
-/** All five tools sharing one set of options, ready to spread into `tools`. */
+/** All five tools sharing one set of options, ready to pass as `tools` or spread into it. */
 export function docCheapTools(options: DocCheapOptions = {}): DocCheapTools {
   return {
     scanDocument: scanDocument(options),
