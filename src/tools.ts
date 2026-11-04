@@ -10,14 +10,18 @@ import { defaultImageFetchDeps, type ImageFetchDeps, resolveImage } from "./imag
 const SANDBOX_ALLOWANCE =
   "Without an API key the public sandbox key is used. It gives 10 free recognised documents " +
   "per address in all, and at most 10 requests per address an hour, whatever their answer. " +
-  "Registering gives 100 free documents every month.";
+  "Registering gives 100 free documents every month. Use test images only, never a real " +
+  "document.";
 
 const STORED_SCANS_SCOPE =
-  "Only scans made with a live key under a non-zero retention window are stored, and only " +
+  "Only scans made with a live key under a non-zero retention window are stored for the " +
+  "account, and only " +
   "until that window ends (retainHours on the scan, or the account's history-retention " +
   "setting, one year by default); a scan made with retainHours 0 was never stored. " +
-  "A key reaches its own account's scans and no other account's. Under a sandbox key – " +
-  "the public one or an account's own sk_sandbox_ key – nothing is stored.";
+  "A key reaches its own account's scans and no other account's. Under a sandbox key " +
+  "nothing can be read back: an account's own sk_sandbox_ key stores nothing, and the " +
+  "public key keeps every scan for one year, with a reduced thumbnail and the address it " +
+  "came from, where that key cannot read, list or delete it.";
 
 const SCAN_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
