@@ -73,7 +73,8 @@ Set `DOC_CHEAP_API_KEY` to a live key (`sk_live_…`) from the
 Without a key the tools use the public sandbox key `sk_sandbox_public`, so
 they work before you have an account. The sandbox gives 10 free recognised
 documents per address in all, and at most 10 requests per address an hour,
-whatever their answer. Nothing made under a sandbox key is stored.
+whatever their answer. Use test images only, never a real document: the public
+sandbox key keeps a record of every scan for one year.
 
 ## Tools
 
@@ -111,8 +112,10 @@ checked once more at the moment of connecting.
 
 **Stored results.** A result is stored only when the scan was made with a live
 key under a non-zero retention window, and only until that window ends. Under a
-sandbox key nothing is stored, so `getScan` and `deleteScan` answer "not found"
-and `listScans` is empty.
+sandbox key nothing can be read back: an account's own sandbox key stores nothing, and the public key
+`sk_sandbox_public` keeps every scan for one year, with a reduced thumbnail and the
+address it came from, where that key cannot reach it. So `getScan` and `deleteScan`
+answer "not found" and `listScans` is empty.
 
 ## Errors
 

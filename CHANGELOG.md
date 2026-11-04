@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.2
+
+- The README and the stored-scan tool descriptions said nothing is stored
+  under a sandbox key. In fact the public sandbox key `sk_sandbox_public`
+  keeps a record of every scan for one year, with a reduced thumbnail and the
+  address it came from, and cannot read it back; an account's own sandbox key
+  stores nothing. The text now says so, and asks for test images only, never a
+  real document.
+
 ## 0.1.1
 
 - **docCheapTools()** can be passed straight as `tools` under strict
